@@ -5,20 +5,10 @@
     <title></title>
 </head>
 <body>
-
-<a href="/quotes/login">Login</a>
-
-<form action="/quote/index" method="post">
+<form action="/practice/login" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
 </form>
-<br>
-{% for quote in quote_list %}
-    <li>{{ quote }}</li>
-    <br>
-    <br>
-{% endfor %}
-
 </body>
 </html>
