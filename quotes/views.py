@@ -4,13 +4,19 @@
 
 from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from . import forms
 from models import Quote
+from django.http import HttpResponse
 
 
 # First Page
 def index(request):
+    '''
+    Processes first page
+    '''
 
     # If user has submitted the quote
     if request.method == "POST":
@@ -30,11 +36,32 @@ def index(request):
 
 # Displays login page
 def login(request):
-
+    '''
+    Handles authentication of existing user
+    '''
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
-        print("In POST1")
-        return HttpResponseRedirect('/thanks/')
+
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user == None:
+            return HttpResponse('Your username does not exist')
+
+        return HttpResponseRedirect('/quotes/')
 
     form = AuthenticationForm()
     return render(request,"quotes/login.html",{'form':form})
+
+
+def user_creation(request):
+    '''
+    Displays User Creation form and prosses it if submitted
+    '''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        form.save()
+
+    form = UserCreationForm()
+
+    return render(request,"quotes/signup.html",{'form':form})

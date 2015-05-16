@@ -6,3 +6,4 @@ from django import forms
 
 class QuoteForm(forms.Form):
     quote = forms.CharField(label="Enter Your Quote",widget=forms.Textarea)
+
