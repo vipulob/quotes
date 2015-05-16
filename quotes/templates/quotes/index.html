@@ -8,7 +8,7 @@
 
 <a href="/quotes/login">Login</a>
 
-<form action="/quote/index" method="post">
+<form action="/quotes/" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
