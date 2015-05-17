@@ -19,6 +19,17 @@ Welcome {{ username }} <br>
     <input type="submit" value="Submit" />
 </form>
 <br>
+{% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <script>
+            alert('{{ message }}');
+        </script>
+
+    {% endfor %}
+    </ul>
+{% endif %}
+
 {% for quote in quote_list %}
     <li>{{ quote }}</li>
     <br>

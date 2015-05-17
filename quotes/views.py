@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from . import forms
 from models import Quote
 from django.http import HttpResponse
+from django.contrib import messages
 
 
 # First Page
@@ -27,18 +28,24 @@ def index(request):
 
     # If user has submitted the quote
     if request.method == "POST":
-        form = forms.QuoteForm(request.POST)
-        if form.is_valid():
-            # Save the quote into the database
-            quote = form.cleaned_data['quote']
-            quote_db = Quote(quote_text=quote)
-            quote_db.save()
+        # Only authenticated user can post quote. Alert if not logged in
+        if username == None:
+            messages.error(request, 'You should login to post the Quote')
+
+        else:
+            form = forms.QuoteForm(request.POST)
+            if form.is_valid():
+                # Save the quote into the database
+                quote = form.cleaned_data['quote']
+                quote_db = Quote(quote_text=quote)
+                quote_db.save()
 
     # Get the quotes from the database
     quote_list = Quote.objects.values_list('quote_text', flat=True)[::-1]
     form = forms.QuoteForm()
     return render(request,"quotes/index.html",
-                  {"form":form,"quote_list":quote_list,'username':username})
+                  {"form":form,"quote_list":quote_list,'username':username,
+                   })
 
 
 # Displays login page
