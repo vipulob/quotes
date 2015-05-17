@@ -5,10 +5,18 @@
     <title></title>
 </head>
 <body>
+{% if flag %}
 <form action="/quotes/login" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
+
+{% else %}
+    UserName does not exist<br>
+    <a href="/quotes/login">Login again</a> OR
+    <a href="/quotes/">Home Page</a>
+{% endif %}
+
 </form>
 </body>
 </html>
