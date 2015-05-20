@@ -31,7 +31,8 @@ Welcome {{ username }} <br>
 {% endif %}
 
 {% for quote in quote_list %}
-    <li>{{ quote }}</li>
+    <li>{{ quote.quote_text }}</li>
+    Submitted by {{ quote.user_who_uploaded }}     Submitted on: {{ quote.submission_date }}
     <br>
     <br>
 {% endfor %}

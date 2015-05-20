@@ -1,4 +1,4 @@
-# Created: 05/02/2015   Modified: 05/017/2015
+# Created: 05/02/2015   Modified: 05/20/2015
 
 # Author: Vipul Borikar
 
@@ -11,6 +11,7 @@ from . import forms
 from models import Quote
 from django.http import HttpResponse
 from django.contrib import messages
+from django.utils import timezone
 
 
 # First Page
@@ -37,11 +38,13 @@ def index(request):
             if form.is_valid():
                 # Save the quote into the database
                 quote = form.cleaned_data['quote']
-                quote_db = Quote(quote_text=quote)
+                quote_db = Quote(quote_text=quote,
+                                 user_who_uploaded=str(username),
+                                 submission_date=timezone.now())
                 quote_db.save()
 
     # Get the quotes from the database
-    quote_list = Quote.objects.values_list('quote_text', flat=True)[::-1]
+    quote_list = Quote.objects.all()[::-1]
     form = forms.QuoteForm()
     return render(request,"quotes/index.html",
                   {"form":form,"quote_list":quote_list,'username':username,
