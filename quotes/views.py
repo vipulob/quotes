@@ -38,9 +38,12 @@ def index(request):
             if form.is_valid():
                 # Save the quote into the database
                 quote = form.cleaned_data['quote']
+                author = form.cleaned_data['quote_author']
                 quote_db = Quote(quote_text=quote,
                                  user_who_uploaded=str(username),
-                                 submission_date=timezone.now())
+                                 submission_date=timezone.now(),
+                                 quote_author=author
+                                 )
                 quote_db.save()
 
     # Get the quotes from the database

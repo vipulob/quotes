@@ -5,5 +5,8 @@
 from django import forms
 
 class QuoteForm(forms.Form):
-    quote = forms.CharField(label="Enter Your Quote",widget=forms.Textarea)
+    quote = forms.CharField(label="Enter Your Quote",
+                            widget=forms.Textarea)
+    quote_author = forms.CharField(label="Enter Author Name",
+                                widget=forms.TextInput(attrs={'size': '40'}))
 
