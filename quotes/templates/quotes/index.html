@@ -1,75 +1,166 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>quotes.com</title>
-    <head>
-<style>
-#header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;
-}
-#nav {
-    line-height:30px;
-    background-color:#eeeeee;
-    min-height:100px;
-    overflow:hidden;
-    width:900px;
-    padding:5px;
-    border:1px solid black;
-}
-#section {
-    width:350px;
-    float:left;
-    padding:10px;
-}
-#footer {
-    background-color:black;
-    color:white;
-    clear:both;
-    text-align:center;
-   padding:5px;
-}
-</style>
-</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Emerald 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20120902
+
+For Quotes site,
+Created    : 28/07/2015
+Modified   : 01/08/2015
+Author     : Biju Ramalingam
+Description: Home page of the Quotes site
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {% load staticfiles %}
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Emerald by FCT</title>
+    <link href="{% static 'quotes/style.css' %}" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
-
-{% if username %}
-Welcome {{ username }} <br>
-<a href="/quotes/logout">Logout</a>
-{% else %}
-<a href="/quotes/login">Login</a>  or <a href="/quotes/signup">SignUP</a>
-{% endif %}
-
-<form action="/quotes/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit" />
-</form>
-<br>
-{% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-        <script>
-            alert('{{ message }}');
-        </script>
-
-    {% endfor %}
-    </ul>
-{% endif %}
-
-{% for quote in quote_list %}
-    <div id="nav">
-        {{ quote.quote_text }}<br>
-        Author: {{ quote.quote_author }} <br>
-        Submitted by {{ quote.user_who_uploaded }} <br>
-        Submitted on: {{ quote.submission_date }} <br>
-        Average Rating: {{ quote.average_rating }} <br>
+<div id="wrapper">
+    <div id="header-wrapper" class="container">
+    <div id="header" class="container">
+        <div id="logo">
+            <h1><a href="#">Quotes </a></h1>
+        </div>
+        <div id="menu">
+            <ul>
+                <li class="current_page_item"><a href="#">Homepage</a></li>
+                <li><a href="#">About</a></li>
+                {% if username %}
+                    <li>Welcome {{ username }}</li>
+                    <li><a href="/quotes/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/quotes/login">Login</a></li>
+                    <li><a href="/quotes/signup">Sign up</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-{% endfor %}
+    <div><img src="{% static 'quotes/images/img03.png' %}" width="1000" height="40" alt="" /></div>
+    </div>
+    <!-- end #header -->
+    <div id="page">
+        <div id="content">
+        
+            <!-- start #quote_input_form -->
+            <div class="post">
+                <div class="entry">
+                    <p>
+                        <form action="/quotes/" method="post">
+                            {% csrf_token %}
+                            <h2>Enter Your Quote </h2>
+                            <p id="form_quote">{{ form.quote }}</p>
+                            <h2>Enter Author Name </h2>
+                            <p id="form_quote_author">{{ form.quote_author }}</p>
+                            <p><input type="submit" id="quote-submit" value="Submit" /></p>
+                        </form>
+                    </p>
+                </div>
+            </div>
+            <!-- end #quote_input_form -->
 
+            <!-- start #message -->
+            {% if messages %}
+            <div class="post">
+                {% for message in messages %}
+                    <script>alert('{{ message }}');</script>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <!-- end #message -->
+
+            <!-- start #display_all_quotes -->
+            {% for quote in quote_list %}
+            <div class="post">
+                <!-- >h2 class="title"><a href="#">Quote </a></h2 -->
+                <p class="meta"><span class="date">{{ quote.submission_date }}</span><span class="posted">Posted by <a href="#">{{ quote.user_who_uploaded }}</a></span></p>
+                <div style="clear: both;">&nbsp;</div>
+                <div class="entry">
+                    <p>{{ quote.quote_text }}</p>
+                    <p>--{{ quote.quote_author }}</p>
+                </div>
+                <div>
+                    <p class="links"><span class="comments">Average Rating: {{ quote.average_rating }}</span><a href="#" title="b0x" class="comments">Comments</a></p>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- end #display_all_quotes -->
+
+            <div style="clear: both;">&nbsp;</div>
+        </div>
+        <!-- end #content -->
+        
+        <div id="sidebar">
+            <ul>
+                <li>
+                    <div id="search" >
+                        <form method="get" action="#">
+                            <div>
+                                <input type="text" name="s" id="search-text" value="" />
+                                <input type="submit" id="search-submit" value="GO" />
+                            </div>
+                        </form>
+                    </div>
+                    <div style="clear: both;">&nbsp;</div>
+                </li>
+                <li>
+                    <h2>Aliquam tempus</h2>
+                    <p>Mauris vitae nisl nec metus placerat perdiet est. Phasellus dapibus semper consectetuer hendrerit.</p>
+                </li>
+                <li>
+                    <h2>Categories</h2>
+                    <ul>
+                        <li><a href="#">Aliquam libero</a></li>
+                        <li><a href="#">Consectetuer adipiscing elit</a></li>
+                        <li><a href="#">Metus aliquam pellentesque</a></li>
+                        <li><a href="#">Suspendisse iaculis mauris</a></li>
+                        <li><a href="#">Urnanet non molestie semper</a></li>
+                        <li><a href="#">Proin gravida orci porttitor</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h2>Blogroll</h2>
+                    <ul>
+                        <li><a href="#">Aliquam libero</a></li>
+                        <li><a href="#">Consectetuer adipiscing elit</a></li>
+                        <li><a href="#">Metus aliquam pellentesque</a></li>
+                        <li><a href="#">Suspendisse iaculis mauris</a></li>
+                        <li><a href="#">Urnanet non molestie semper</a></li>
+                        <li><a href="#">Proin gravida orci porttitor</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h2>Archives</h2>
+                    <ul>
+                        <li><a href="#">Aliquam libero</a></li>
+                        <li><a href="#">Consectetuer adipiscing elit</a></li>
+                        <li><a href="#">Metus aliquam pellentesque</a></li>
+                        <li><a href="#">Suspendisse iaculis mauris</a></li>
+                        <li><a href="#">Urnanet non molestie semper</a></li>
+                        <li><a href="#">Proin gravida orci porttitor</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- end #sidebar -->
+        <div style="clear: both;">&nbsp;</div>
+    </div>
+    <div class="container"><img src="{% static 'quotes/images/img03.png' %" width="1000" height="40" alt="" /></div>
+    <!-- end #page -->
+</div>
+<div id="footer-content"></div>
+<div id="footer">
+    <p>Copyright (c) 2015 quotes.com. All rights reserved. Design by <a href="http://www.freecsstemplates.org">FCT</a>.</p>
+</div>
+<!-- end #footer -->
 </body>
 </html>
