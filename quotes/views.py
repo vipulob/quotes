@@ -42,7 +42,8 @@ def index(request):
                 quote_db = Quote(quote_text=quote,
                                  user_who_uploaded=str(username),
                                  submission_date=timezone.now(),
-                                 quote_author=author
+                                 quote_author=author,
+                                 average_rating=2,
                                  )
                 quote_db.save()
 
